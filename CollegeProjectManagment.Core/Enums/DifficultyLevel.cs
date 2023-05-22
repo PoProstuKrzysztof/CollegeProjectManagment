@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Enums;
-internal class test
+internal class DifficultyLevel
 {
 }

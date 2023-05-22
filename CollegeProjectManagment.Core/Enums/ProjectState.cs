@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollegeProjectManagment.Core.Domain.Entities;
-internal class Class1
+namespace CollegeProjectManagment.Core.Enums;
+internal class ProjectState
 {
 }
