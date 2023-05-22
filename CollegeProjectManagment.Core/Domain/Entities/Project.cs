@@ -24,13 +24,3 @@ public class Project
     public string RepositoryLink { get; set; }
     public ICollection<Team> Teams { get; set; }
 }
-
-public enum ProjectState
-{
-    Created,
-    TeamCompleted,
-    Started,
-    Completed,
-    Testing,
-    Finished
-}
