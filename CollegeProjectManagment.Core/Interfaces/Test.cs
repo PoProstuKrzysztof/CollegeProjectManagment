@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Interfaces;
+
 internal interface Test
 {
+    // to jest po to żeby sie folder stworzył, usuń to
 }
