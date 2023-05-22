@@ -5,6 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Enums;
-internal class ProgrammingLanguages
+
+public enum ProgrammingLanguages
 {
+    CSharp,
+    Java,
+    Python,
+    JavaScript,
+    Ruby,
+    TypeScript,
+    CPlusPlus,
+    Go,
+    Swift,
+    Kotlin
 }

@@ -5,6 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Enums;
-internal class ProjectState
+
+public enum ProjectState
 {
+    Created,
+    TeamCompleted,
+    Started,
+    Completed,
+    Testing,
+    Finished
 }

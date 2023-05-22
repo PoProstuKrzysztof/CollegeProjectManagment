@@ -5,6 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Enums;
-internal class TechnologyStack
+
+public enum TechnologyStack
 {
+    Frontend,
+    Backend,
+    FullStack,
+    Mobile,
+    DataScience,
+    DevOps
 }

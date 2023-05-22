@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Enums;
-internal class DifficultyLevel
+
+public enum DifficultyLevel
 {
+    Easy,
+    Medium,
+    Hard
 }
