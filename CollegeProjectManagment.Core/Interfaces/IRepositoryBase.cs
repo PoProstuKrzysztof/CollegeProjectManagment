@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollegeProjectManagment.Infrastructure.Repositories;
-internal class Class1
+namespace CollegeProjectManagment.Core.Interfaces;
+internal interface IRepositoryBase
 {
 }

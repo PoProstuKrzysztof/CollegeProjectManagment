@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.DTO;
-internal class Class1
+
+public class Class1
 {
+    // to jest po to żeby sie folder stworzył, usuń to
 }

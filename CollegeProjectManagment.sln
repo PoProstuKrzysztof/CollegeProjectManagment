@@ -3,11 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeProjectManagment", "CollegeProjectManagment\CollegeProjectManagment.csproj", "{5E6628CD-63C4-4DCF-B104-87F43286F1BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProjectManagment", "CollegeProjectManagment\CollegeProjectManagment.csproj", "{5E6628CD-63C4-4DCF-B104-87F43286F1BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeProjectManagment.Core", "CollegeProjectManagment.Core\CollegeProjectManagment.Core.csproj", "{D7D4FFBB-133D-44C9-95E9-5F3A292B2D23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProjectManagment.Core", "CollegeProjectManagment.Core\CollegeProjectManagment.Core.csproj", "{D7D4FFBB-133D-44C9-95E9-5F3A292B2D23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeProjectManagment.Infrastructure", "CollegeProjectManagment.Infrastructure\CollegeProjectManagment.Infrastructure.csproj", "{4B02E778-A74D-42D1-993C-6F7B65C199BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProjectManagment.Infrastructure", "CollegeProjectManagment.Infrastructure\CollegeProjectManagment.Infrastructure.csproj", "{4B02E778-A74D-42D1-993C-6F7B65C199BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D7D4FFBB-133D-44C9-95E9-5F3A292B2D23} = {D7D4FFBB-133D-44C9-95E9-5F3A292B2D23}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D90856A5-CE82-477A-A0B4-5E573C1561EC}"
 EndProject
