@@ -23,7 +23,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 
     // we add AsNoTracking to keep high preformance with loading entities
     public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression) =>
-        RepositoryContext.Set<T>().Where(expression);
+        RepositoryContext.Set<T>().Where(expression).AsNoTracking();
 
     public void Update(T entity) => RepositoryContext.Set<T>().Update(entity);
 
