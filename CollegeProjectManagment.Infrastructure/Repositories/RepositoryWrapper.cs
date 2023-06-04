@@ -15,11 +15,4 @@ public class RepositoryWrapper
     public IRoleRepository _role;
     public ITeamRepository _team;
     public IProjectRepository _project;
-
-    public
 }
-
-while (true)
-
-	{
-	}
