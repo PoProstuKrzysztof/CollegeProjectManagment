@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollegeProjectManagment.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,14 +12,21 @@ namespace CollegeProjectManagment.Core.Domain.Entities;
 [Table("team")]
 public class Team
 {
+    [Key]
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    [Column("TeamId")]
     public int Id { get; set; }
 
     [Required]
     public string Name { get; set; } = string.Empty;
 
-    [Required]
+    public bool IsOpen { get; set; } = false;
+
+    //Relationships
+
+    public ICollection<Project> CompletedProjects { get; set; }
+
     public ICollection<Member> Members { get; set; }
 
-    [Required]
     public ICollection<Project> Projects { get; set; }
 }

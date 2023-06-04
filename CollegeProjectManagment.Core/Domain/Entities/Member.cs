@@ -12,6 +12,9 @@ namespace CollegeProjectManagment.Core.Domain.Entities;
 [Table("member")]
 public class Member
 {
+    [Key]
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    [Column("MemberId")]
     public int Id { get; set; }
 
     [Required]
@@ -20,8 +23,15 @@ public class Member
     [Required]
     public string Surname { get; set; } = string.Empty;
 
+    public ICollection<ProgrammingLanguages>? KnownTechnologies { get; set; }
+
+    public ICollection<SkillRating>? SkillRatings { get; set; }
+
+    // Relationships
+    public int RoleId { get; set; }
+
     public Role? Role { get; set; }
-    public List<Project>? Projects { get; set; }
-    public List<string>? KnownTechnologies { get; set; } // można dodać tutaj tez enuma
-    public Dictionary<string, int>? SkillRatings { get; set; }
+
+    public int TeamId { get; set; }
+    public Team? Team { get; set; }
 }

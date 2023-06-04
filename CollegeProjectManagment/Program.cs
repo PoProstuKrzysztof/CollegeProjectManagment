@@ -1,5 +1,6 @@
 using CollegeProjectManagment.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //adding database connection
-builder.Services.AddDbContext<RepositoryContext>
+builder.Services.AddDbContextPool<RepositoryContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+q => q.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+);
 
 var app = builder.Build();
 
