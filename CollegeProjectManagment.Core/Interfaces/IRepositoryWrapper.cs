@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Interfaces;
 
-internal interface IRepositoryWrapper
+public interface IRepositoryWrapper
 {
     IMemberRepository Member { get; }
     ITeamRepository Team { get; }

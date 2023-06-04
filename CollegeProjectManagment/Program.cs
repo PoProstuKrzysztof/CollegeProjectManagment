@@ -1,3 +1,4 @@
+using CollegeProjectManagment.DI;
 using CollegeProjectManagment.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,8 @@ builder.Services.AddDbContextPool<RepositoryContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
 q => q.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
 );
+
+builder.Services.ConfigureServices();
 
 var app = builder.Build();
 
