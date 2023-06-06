@@ -33,7 +33,7 @@ public class Project
 
     public DateTime PlannedEndDate { get; set; }
     public DateTime? CompletionDate { get; set; }
-
+    [RepositoryLinkValidation(ProjectState.Finished)]
     public string RepositoryLink { get; set; } = string.Empty;
 
     //Relationships
@@ -43,4 +43,26 @@ public class Project
     public int LeaderId { get; set; }
 
     public Member? Leader { get; set; }
+    [AttributeUsage(AttributeTargets.Property)]
+    public class RepositoryLinkValidationAttribute : ValidationAttribute
+    {
+        private readonly ProjectState _state;
+
+        public RepositoryLinkValidationAttribute(ProjectState state)
+        {
+            _state = state;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var project = (Project)validationContext.ObjectInstance;
+
+            if (project.State != _state && !string.IsNullOrWhiteSpace(project.RepositoryLink))
+            {
+                return new ValidationResult("Cannot add or update repository link until project is finished");
+            }
+
+            return ValidationResult.Success;
+        }
+    }
 }
