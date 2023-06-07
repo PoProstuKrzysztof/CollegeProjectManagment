@@ -64,8 +64,8 @@ public class RoleController : ControllerBase
     {
         try
         {
-            var role = await _repository.Role.GetRoleWithMembers(id);
-
+            var role = await _repository.Role.GetRoleWithMembers(id)
+                ;
             return role == null ? NotFound() : Ok(role);
         }
         catch (Exception)
@@ -78,7 +78,7 @@ public class RoleController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateOwner([FromBody] Role role)
+    public async Task<IActionResult> CreateRole([FromBody] Role role)
     {
         try
         {
