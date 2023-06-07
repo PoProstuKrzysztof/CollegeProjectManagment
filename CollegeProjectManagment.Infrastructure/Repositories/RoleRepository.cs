@@ -16,14 +16,11 @@ public class RoleRepository : RepositoryBase<Role>, IRoleRepository
     {
     }
 
-    public void CreateRole(Role role)
+    public async Task<IEnumerable<Role>> GetAllRoles()
     {
-        Create(role);
-    }
-
-    public IQueryable<Role> GetAll()
-    {
-        return FindAll().OrderBy(r => r.Name);
+        return await FindAll()
+            .OrderBy(x => x.Name)
+            .ToListAsync();
     }
 
     public async Task<Role> GetRoleById(int id)
@@ -31,10 +28,18 @@ public class RoleRepository : RepositoryBase<Role>, IRoleRepository
         return await FindByCondition(r => r.Id.Equals(id)).FirstOrDefaultAsync();
     }
 
-    public async Task<Role> GetRoleWithMembers(int id)
+    public void CreateRole(Role role)
     {
-        return await FindByCondition(r => r.Id.Equals(id))
-            .Include(m => m.Members)
-            .FirstOrDefaultAsync();
+        Create(role);
+    }
+
+    public void UpdateRole(Role role)
+    {
+        Update(role);
+    }
+
+    public void DeleteRole(Role role)
+    {
+        Delete(role);
     }
 }

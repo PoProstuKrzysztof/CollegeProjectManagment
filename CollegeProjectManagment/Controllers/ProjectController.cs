@@ -1,6 +1,7 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using CollegeProjectManagment.Core.Interfaces;
+
 namespace CollegeProjectManagment.Controllers;
 
 public class ProjectController
@@ -39,7 +40,6 @@ public class ProjectController
         [HttpPost]
         public async Task<ActionResult<Project>> CreateProject(Project project)
         {
-
             var createdProject = await _projectService.CreateProject(project);
             return CreatedAtAction(nameof(GetProject), new { id = createdProject.Id }, createdProject);
         }
@@ -58,5 +58,4 @@ public class ProjectController
             return NoContent();
         }
     }
-
 }

@@ -10,14 +10,12 @@ using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.DTO;
 
-public class MemberDTO
+public record class MemberDTO
 {
     public int Id { get; set; }
 
-    [Required]
     public string? Name { get; set; } = string.Empty;
 
-    [Required]
     public string? Surname { get; set; } = string.Empty;
 
     [JsonConverter(typeof(StringEnumConverter))]

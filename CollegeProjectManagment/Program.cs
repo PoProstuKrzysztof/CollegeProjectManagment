@@ -20,8 +20,14 @@ builder.Services.AddSwaggerGen();
 //adding database connection
 builder.Services.AddDbContextPool<RepositoryContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-q => q.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
-);
+sqlServerOptionsAction: sqlOptions =>
+{
+    sqlOptions.EnableRetryOnFailure();
+    sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+   
+}));
+
+
 
 builder.Services.ConfigureServices();
 
@@ -34,16 +40,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-using var scope = app.Services.CreateScope();
+///Nie usuwaæ
 
-var dbContext = scope.ServiceProvider.GetService<RepositoryContext>();
+//using var scope = app.Services.CreateScope();
 
-DbContextSeeder.SeedData(dbContext);
+//var dbContext = scope.ServiceProvider.GetService<RepositoryContext>();
+//if (!dbContext.Members.Any())
+//{
+//    DbContextSeeder.SeedData(dbContext);
+//}
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+app.SeedData();
 
 app.Run();

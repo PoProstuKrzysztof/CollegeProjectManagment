@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.DTO;
-public class RoleDTO
+public record class RoleDTO
 {
+    public int Id { get; set; }
+
+    public string Name { get; set; } = string.Empty;
 }

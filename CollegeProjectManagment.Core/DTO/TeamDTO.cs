@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.DTO;
 
-public class TeamDTO
+public record class TeamDTO
 {
     public int Id { get; set; }
 
-    [Required]
     public string Name { get; set; } = string.Empty;
 
     public bool IsOpen { get; set; } = false;

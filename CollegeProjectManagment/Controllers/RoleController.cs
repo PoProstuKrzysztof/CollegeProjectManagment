@@ -1,5 +1,7 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
+using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Interfaces;
+using CollegeProjectManagment.Core.Mapper;
 using Microsoft.AspNetCore.Mvc;
 using System.CodeDom.Compiler;
 
@@ -10,6 +12,7 @@ namespace CollegeProjectManagment.Controllers;
 public class RoleController : ControllerBase
 {
     private IRepositoryWrapper _repository;
+    private Mapper _mapper = new Mapper();
 
     public RoleController(IRepositoryWrapper repository)
     {
@@ -19,18 +22,18 @@ public class RoleController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult GetAllRoles()
+    public async Task<IActionResult> GetAllRoles()
     {
         try
         {
-            var roles = _repository.Role.FindAll();
+            var roles = await _repository.Role.GetAllRoles();
 
             if (!roles.Any())
             {
                 return NotFound();
             }
 
-            return Ok(roles);
+            return Ok(roles.RolesToRoleDTO().ToList());
         }
         catch (Exception)
         {
@@ -48,25 +51,7 @@ public class RoleController : ControllerBase
         {
             var role = await _repository.Role.GetRoleById(id);
 
-            return role == null ? NotFound() : Ok(role);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "Internal server error");
-        }
-    }
-
-    [HttpGet("{id}/members")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetRoleMembersById(int id)
-    {
-        try
-        {
-            var role = await _repository.Role.GetRoleWithMembers(id)
-                ;
-            return role == null ? NotFound() : Ok(role);
+            return role == null ? NotFound() : Ok(_mapper.MapRoleToRoleDTO(role));
         }
         catch (Exception)
         {
@@ -78,7 +63,7 @@ public class RoleController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateRole([FromBody] Role role)
+    public IActionResult CreateRole([FromBody] RoleDTO role)
     {
         try
         {
@@ -92,10 +77,75 @@ public class RoleController : ControllerBase
                 return BadRequest("Invalid model object");
             }
 
-            _repository.Role.CreateRole(role);
+            _repository.Role.CreateRole(_mapper.MapRoletDtoToProject(role));
             _repository.Save();
 
             return CreatedAtRoute("RoleById", new { id = role.Id }, role);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> UpdateRole([FromBody] RoleDTO role)
+    {
+        try
+        {
+            if (role is null)
+            {
+                return BadRequest("Role object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+
+            var roleEntity = await _repository.Role.GetRoleById(role.Id);
+            if (roleEntity is null)
+            {
+                return NotFound();
+            }
+
+            _repository.Role.UpdateRole(_mapper.MapRoletDtoToProject(role));
+            _repository.Save();
+
+            return NoContent();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> DeleteOwner(int id)
+    {
+        try
+        {
+            var role = await _repository.Role.GetRoleById(id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            if (_repository.Member.MembersByRole(id).Any())
+            {
+                return BadRequest("Cannot delete role. It has related members. Delete those members first");
+            }
+
+            _repository.Role.DeleteRole(role);
+            _repository.Save();
+
+            return NoContent();
         }
         catch (Exception)
         {

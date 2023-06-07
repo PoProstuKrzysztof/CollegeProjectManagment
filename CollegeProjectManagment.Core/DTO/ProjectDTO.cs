@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.DTO;
 
-public class ProjectDTO
+public record class ProjectDTO
 {
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
@@ -33,4 +33,7 @@ public class ProjectDTO
     public DateTime PlannedEndDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public string RepositoryLink { get; set; } = string.Empty;
+
+    public TeamDTO Team { get; set; }
+    public MemberDTO Leader { get; set; }
 }

@@ -14,4 +14,9 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
     public MemberRepository(RepositoryContext repositoryContext) : base(repositoryContext)
     {
     }
+
+    public IEnumerable<Member> MembersByRole(int roleId)
+    {
+        return FindByCondition(r => r.RoleId.Equals(roleId)).ToList();
+    }
 }

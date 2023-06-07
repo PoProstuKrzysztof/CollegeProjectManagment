@@ -10,7 +10,7 @@ namespace CollegeProjectManagment.Infrastructure.Repositories;
 
 public class RepositoryWrapper : IRepositoryWrapper
 {
-    private RepositoryContext _context;
+    private readonly RepositoryContext _context;
     private IMemberRepository _member;
     private IRoleRepository _role;
     private ITeamRepository _team;
@@ -73,7 +73,7 @@ public class RepositoryWrapper : IRepositoryWrapper
         }
     }
 
-    public async void Save()
+    public async Task Save()
     {
         await _context.SaveChangesAsync();
     }
