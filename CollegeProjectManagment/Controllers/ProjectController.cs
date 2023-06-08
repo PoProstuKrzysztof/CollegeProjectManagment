@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Core.Mapper;
 using CollegeProjectManagment.Core.DTO;
+using CollegeProjectManagment.Core.Enums;
 
 namespace CollegeProjectManagment.Controllers;
 
@@ -77,7 +78,10 @@ public class ProjectController : ControllerBase
             }
 
             var projectEntity = _mapper.MapyProjectDtoToProject(project);
-
+            if (projectEntity.State != ProjectState.Finished)
+            {
+                projectEntity.RepositoryLink = string.Empty;
+            }
             _repository.Project.CreateProject(projectEntity);
             projectEntity.CountMembers(await _repository.Member.CountMembersOfTeam(project.AssignedTeamId));
 
@@ -117,7 +121,10 @@ public class ProjectController : ControllerBase
             }
 
             var projectEntity = _mapper.MapyProjectDtoToProject(project);
-
+            if (projectEntity.State != ProjectState.Finished)
+            {
+                projectEntity.RepositoryLink = existingProject.RepositoryLink;
+            }
             _repository.Project.UpdateProject(projectEntity);
             projectEntity.CountMembers(await _repository.Member.CountMembersOfTeam(project.AssignedTeamId));
             await _repository.Save();
