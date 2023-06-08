@@ -25,6 +25,8 @@ public class Member
     [Required]
     public string? Surname { get; set; } = string.Empty;
 
+    public int? PrestigePoints { get; set; } = 0;
+
     [JsonConverter(typeof(StringEnumConverter))]
     public ICollection<ProgrammingLanguages>? KnownTechnologies { get; set; }
 

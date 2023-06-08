@@ -1,38 +1,38 @@
-﻿using CollegeProjectManagment.Core.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Core.Mapper;
-using CollegeProjectManagment.Core.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeProjectManagment.Controllers;
 
+[Route("api/member")]
 [ApiController]
-[Route("api/project")]
-public class ProjectController : ControllerBase
+public class MemberController : ControllerBase
 {
     private IRepositoryWrapper _repository;
     private Mapper _mapper = new Mapper();
 
-    public ProjectController(IRepositoryWrapper repository)
+    public MemberController(IRepositoryWrapper repository)
     {
         _repository = repository;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllProjects()
+    public async Task<IActionResult> GetAllMembers()
     {
         try
         {
-            var projects = await _repository.Project.GetAllProjects();
+            var members = await _repository.Member.GetAllMembers();
 
-            if (!projects.Any())
+            if (!members.Any())
             {
                 return NotFound();
             }
 
-            return Ok(projects.Select(p => _mapper.MapProjectToProjectDTO(p)).ToList());
+            return Ok(members.Select(m => _mapper.MapMemberToMemberDTO(m)).ToList());
         }
         catch (Exception)
         {
@@ -40,17 +40,17 @@ public class ProjectController : ControllerBase
         }
     }
 
-    [HttpGet("{id}", Name = "ProjectById")]
+    [HttpGet("{id}", Name = "MemberById")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetProjectById(int id)
+    public async Task<IActionResult> GetMemberById(int id)
     {
         try
         {
-            var project = await _repository.Project.GetProjectById(id);
+            var member = await _repository.Member.GetMemberById(id);
 
-            return project == null ? NotFound() : Ok(_mapper.MapProjectToProjectDTO(project));
+            return member == null ? NotFound() : Ok(_mapper.MapMemberToMemberDTO(member));
         }
         catch (Exception)
         {
@@ -62,13 +62,13 @@ public class ProjectController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateProject([FromBody] ProjectDTO project)
+    public async Task<IActionResult> CreateMember([FromBody] MemberDTO member)
     {
         try
         {
-            if (project is null)
+            if (member is null)
             {
-                return BadRequest("Project object is null");
+                return BadRequest("Member object is null");
             }
 
             if (!ModelState.IsValid)
@@ -76,10 +76,10 @@ public class ProjectController : ControllerBase
                 return BadRequest("Invalid model object");
             }
 
-            _repository.Project.CreateProject(_mapper.MapyProjectDtoToProject(project));
+            _repository.Member.CreateMember(_mapper.MapMemberDtoToMember(member));
             await _repository.Save();
 
-            return CreatedAtRoute("ProjectById", new { id = project.Id }, project);
+            return CreatedAtRoute("MemberById", new { id = member.Id }, member);
         }
         catch (Exception)
         {
@@ -91,13 +91,13 @@ public class ProjectController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> UpdateProject([FromBody] ProjectDTO project)
+    public async Task<IActionResult> UpdateMember([FromBody] MemberDTO member)
     {
         try
         {
-            if (project is null)
+            if (member is null)
             {
-                return BadRequest("Project object is null");
+                return BadRequest("Member object is null");
             }
 
             if (!ModelState.IsValid)
@@ -105,13 +105,13 @@ public class ProjectController : ControllerBase
                 return BadRequest("Invalid model object");
             }
 
-            var existingProject = await _repository.Project.GetProjectById(project.Id);
-            if (existingProject == null)
+            var memberEntity = await _repository.Member.GetMemberById(member.Id);
+            if (memberEntity is null)
             {
                 return NotFound();
             }
 
-            _repository.Project.UpdateProject(_mapper.MapyProjectDtoToProject(project));
+            _repository.Member.UpdateMember(_mapper.MapMemberDtoToMember(member));
             await _repository.Save();
 
             return NoContent();
@@ -126,18 +126,18 @@ public class ProjectController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> DeleteProject(int id)
+    public async Task<IActionResult> DeleteMember(int id)
     {
         try
         {
-            var project = await _repository.Project.GetProjectById(id);
-            if (project == null)
+            var member = await _repository.Member.GetMemberById(id);
+            if (member == null)
             {
                 return NotFound();
             }
 
-            _repository.Project.DeleteProject(project);
-            await _repository.Save();
+            _repository.Member.DeleteMember(member);
+            _repository.Save();
 
             return NoContent();
         }

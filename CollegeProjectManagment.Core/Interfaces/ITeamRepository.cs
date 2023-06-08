@@ -9,4 +9,14 @@ namespace CollegeProjectManagment.Core.Interfaces;
 
 public interface ITeamRepository : IRepositoryBase<Team>
 {
+    Task<IEnumerable<Team>> GetAllTeams();
+
+    Task<Team> GetTeamById(int id);
+
+    void CreateTeam(Team team);
+
+    void UpdateTeam(Team team);
+
+    void DeleteTeam(Team team);
+
 }

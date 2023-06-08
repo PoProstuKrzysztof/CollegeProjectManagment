@@ -12,15 +12,26 @@ namespace CollegeProjectManagment.Core.Mapper;
 [Mapper(EnumMappingStrategy = EnumMappingStrategy.ByName, EnumMappingIgnoreCase = true)]
 public partial class Mapper
 {
-    [MapperIgnoreSource(nameof(Project.AssignedTeamId))]
-    [MapperIgnoreSource(nameof(Project.LeaderId))]
+    //Mapowanie poszczególnych encji na DTO i odwrotnie
+
+    //Projects
     public partial ProjectDTO MapProjectToProjectDTO(Project project);
+
+    public partial Project MapyProjectDtoToProject(ProjectDTO projectDTO);
+
+    //Teams
 
     public partial TeamDTO MapTeamToTeamDTO(Team team);
 
+    public partial Team MapTeamDtoToTeam(TeamDTO teamDTO);
+
+    //Members
     public partial MemberDTO MapMemberToMemberDTO(Member member);
 
+    public partial Member MapMemberDtoToMember(MemberDTO memberDTO);
+
+    //Roles
     public partial RoleDTO MapRoleToRoleDTO(Role role);
 
-    public partial Role MapRoletDtoToProject(RoleDTO project);
+    public partial Role MapRoletDtoToProject(RoleDTO roleDTO);
 }

@@ -22,6 +22,7 @@ public class RoleController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAllRoles()
     {
         try
@@ -33,7 +34,7 @@ public class RoleController : ControllerBase
                 return NotFound();
             }
 
-            return Ok(roles.RolesToRoleDTO().ToList());
+            return Ok(roles.Select(r => _mapper.MapRoleToRoleDTO(r)).ToList());
         }
         catch (Exception)
         {
@@ -113,7 +114,7 @@ public class RoleController : ControllerBase
             }
 
             _repository.Role.UpdateRole(_mapper.MapRoletDtoToProject(role));
-            _repository.Save();
+            await _repository.Save();
 
             return NoContent();
         }
@@ -143,7 +144,7 @@ public class RoleController : ControllerBase
             }
 
             _repository.Role.DeleteRole(role);
-            _repository.Save();
+            await _repository.Save();
 
             return NoContent();
         }

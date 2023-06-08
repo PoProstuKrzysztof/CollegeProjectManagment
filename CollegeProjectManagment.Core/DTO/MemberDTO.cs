@@ -18,9 +18,8 @@ public record class MemberDTO
 
     public string? Surname { get; set; } = string.Empty;
 
-    [JsonConverter(typeof(StringEnumConverter))]
+
     public ICollection<ProgrammingLanguages>? KnownTechnologies { get; set; }
 
-    [JsonConverter(typeof(StringEnumConverter))]
     public ICollection<SkillRating>? SkillRatings { get; set; }
 }

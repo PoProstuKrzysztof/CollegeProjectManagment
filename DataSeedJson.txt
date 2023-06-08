@@ -7,3 +7,48 @@
   "name": "analityk"
   ]
 }
+
+
+//JSON MEMBER POST
+
+{
+  "id": 4,
+  "name": "Test",
+  "surname": "Testing",
+  "knownTechnologies": [
+    "CSharp"
+  ],
+  "skillRatings": [
+    "Beginner"
+  ]
+}
+
+
+//JSON PROJECT POST
+
+{
+    "id": 3,
+    "title": "ssss",
+    "description": "aaaa",
+    "requirements": "ssss",
+    "numberOfMembers": 0,
+    "technologyStack": "aaaaa",
+    "programmingLanguages": [
+      "CSharp"
+    ],
+    "difficultyLevel": "Easy",
+    "state": "Created",
+    "plannedEndDate": "2023-06-08T17:17:43.718",
+    "completionDate": "2023-06-10T17:17:43.718",
+    "repositoryLink": "string",
+    "assignedTeamId": 1,
+    "leaderId": 1
+  }
+
+//JSON TEAM POST
+
+{
+    "id": 4,
+    "name": "Team D",
+    "isOpen": true
+ }

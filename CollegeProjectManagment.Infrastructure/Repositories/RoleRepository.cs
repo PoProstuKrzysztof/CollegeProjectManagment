@@ -19,7 +19,7 @@ public class RoleRepository : RepositoryBase<Role>, IRoleRepository
     public async Task<IEnumerable<Role>> GetAllRoles()
     {
         return await FindAll()
-            .OrderBy(x => x.Name)
+            .OrderBy(x => x.Id)
             .ToListAsync();
     }
 
