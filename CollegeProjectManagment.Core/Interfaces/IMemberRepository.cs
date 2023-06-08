@@ -30,4 +30,6 @@ public interface IMemberRepository : IRepositoryBase<Member>
     Task<List<Member>> FindAllMembersOfTeam(int? teamId);
 
     Task<int> CountMembersOfTeam(int? teamId);
+
+    void ManagePoints(List<Member> members, string command);
 }

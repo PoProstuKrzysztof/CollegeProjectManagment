@@ -84,4 +84,29 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
 
         return members.Count();
     }
+
+    public void ManagePoints(List<Member> members, string command)
+    {
+        if (command is null)
+        {
+            command = "back";
+        }
+
+        if (command.ToLower().Equals("next"))
+        {
+            foreach (var m in members)
+            {
+                m.AddPoints();
+                Update(m);
+            }
+        }
+        else
+        {
+            foreach (var m in members)
+            {
+                m.SubtractPoints();
+                Update(m);
+            }
+        }
+    }
 }

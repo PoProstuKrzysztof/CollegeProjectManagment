@@ -45,12 +45,17 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
         Delete(project);
     }
 
-    public async Task<bool> UpdateProjectStatus(int id, string command)
+    public async Task<bool> UpdateProjectStatus(int id, string? command)
     {
         var projectEntity = await FindByCondition(x => x.Id.Equals(id)).FirstOrDefaultAsync();
         if (projectEntity is null)
         {
             return false;
+        }
+
+        if (command is null)
+        {
+            command = "revert";
         }
 
         if (command.ToLower().Equals("next"))

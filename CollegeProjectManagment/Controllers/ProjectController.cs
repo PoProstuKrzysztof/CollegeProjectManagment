@@ -163,8 +163,12 @@ public class ProjectController : ControllerBase
             {
                 return BadRequest("Couldn't move project to other state");
             }
-            var projectEntity = await _repository.Project.GetProjectById(id);
-            projectEntity.CountMembers(await _repository.Member.CountMembersOfTeam(projectEntity.AssignedTeamId));
+
+            var project = await _repository.Project.GetProjectById(id);
+            var members = await _repository.Member.FindAllMembersOfTeam(project.AssignedTeamId);
+
+            _repository.Member.ManagePoints(members, command);
+
             await _repository.Save();
 
             return NoContent();

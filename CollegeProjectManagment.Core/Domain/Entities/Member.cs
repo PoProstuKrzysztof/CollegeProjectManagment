@@ -40,4 +40,14 @@ public class Member
 
     public int? TeamId { get; set; }
     public Team? Team { get; set; }
+
+    public void AddPoints()
+    {
+        PrestigePoints += 10;
+    }
+
+    public void SubtractPoints()
+    {
+        PrestigePoints -= 10;
+    }
 }
