@@ -43,6 +43,27 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
+        [HttpGet("{id}/members")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllMembersOfTeam([FromRoute] int? id)
+        {
+            try
+            {
+                var members = await _repository.Member.FindAllMembersOfTeam(id);
+                if (members.Count == 0)
+                {
+                    return NotFound("There are no members assigned to team");
+                }
+
+                return Ok(members.Select(x => _mapper.MapMemberToMemberDTO(x)).ToList());
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Wewnętrzny błąd serwera");
+            }
+        }
+
         [HttpGet("{id}", Name = "TeamById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -82,9 +82,4 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
 
         return true;
     }
-
-    public int CountMembersOfProject(Project project)
-    {
-        return project.Team.Members.Count();
-    }
 }

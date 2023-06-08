@@ -26,4 +26,8 @@ public interface IMemberRepository : IRepositoryBase<Member>
 
     // INDIVIDUAL OPERATIONS
     Task IncreasePrestigePointsForTeamMembers(int teamId);
+
+    Task<List<Member>> FindAllMembersOfTeam(int? teamId);
+
+    Task<int> CountMembersOfTeam(int? teamId);
 }

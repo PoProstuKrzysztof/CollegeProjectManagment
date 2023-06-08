@@ -1,4 +1,5 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
+using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -64,5 +65,23 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
             member.PrestigePoints += 1;
             Update(member);
         }
+    }
+
+    public async Task<List<Member>> FindAllMembersOfTeam(int? teamId)
+    {
+        var members = await FindAll()
+            .Where(x => x.TeamId.Equals(teamId))
+            .ToListAsync();
+
+        return members;
+    }
+
+    public async Task<int> CountMembersOfTeam(int? teamId)
+    {
+        var members = await FindAll()
+            .Where(x => x.TeamId.Equals(teamId))
+            .ToListAsync();
+
+        return members.Count();
     }
 }

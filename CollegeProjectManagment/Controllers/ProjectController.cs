@@ -76,7 +76,11 @@ public class ProjectController : ControllerBase
                 return BadRequest("Invalid model object");
             }
 
-            _repository.Project.CreateProject(_mapper.MapyProjectDtoToProject(project));
+            var projectEntity = _mapper.MapyProjectDtoToProject(project);
+
+            _repository.Project.CreateProject(projectEntity);
+            projectEntity.CountMembers(await _repository.Member.CountMembersOfTeam(project.AssignedTeamId));
+
             await _repository.Save();
 
             return CreatedAtRoute("ProjectById", new { id = project.Id }, project);
@@ -111,7 +115,10 @@ public class ProjectController : ControllerBase
                 return NotFound();
             }
 
-            _repository.Project.UpdateProject(_mapper.MapyProjectDtoToProject(project));
+            var projectEntity = _mapper.MapyProjectDtoToProject(project);
+
+            _repository.Project.UpdateProject(projectEntity);
+            projectEntity.CountMembers(await _repository.Member.CountMembersOfTeam(project.AssignedTeamId));
             await _repository.Save();
 
             return NoContent();
@@ -152,11 +159,12 @@ public class ProjectController : ControllerBase
     {
         try
         {
-            if(!await _repository.Project.UpdateProjectStatus(id, command))
+            if (!await _repository.Project.UpdateProjectStatus(id, command))
             {
                 return BadRequest("Couldn't move project to other state");
             }
-
+            var projectEntity = await _repository.Project.GetProjectById(id);
+            projectEntity.CountMembers(await _repository.Member.CountMembersOfTeam(projectEntity.AssignedTeamId));
             await _repository.Save();
 
             return NoContent();

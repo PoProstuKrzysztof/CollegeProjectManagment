@@ -1,4 +1,5 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
+using CollegeProjectManagment.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,4 +19,6 @@ public interface ITeamRepository : IRepositoryBase<Team>
     void UpdateTeam(Team team);
 
     void DeleteTeam(Team team);
+
+    // INDIVIDUAL OPERATIONS
 }

@@ -49,4 +49,9 @@ public class Project
     public int? LeaderId { get; set; }
 
     public Member? Leader { get; set; }
+
+    public void CountMembers(int count)
+    {
+        NumberOfMembers = count;
+    }
 }

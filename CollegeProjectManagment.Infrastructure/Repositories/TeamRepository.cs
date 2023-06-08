@@ -1,4 +1,5 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
+using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
