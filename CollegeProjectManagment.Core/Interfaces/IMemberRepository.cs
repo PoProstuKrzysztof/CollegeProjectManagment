@@ -9,4 +9,16 @@ namespace CollegeProjectManagment.Core.Interfaces;
 
 public interface IMemberRepository : IRepositoryBase<Member>
 {
+    // tutaj usuwamy wszystkich memberów powiązanych z rolą jak jest usuwana
+    IEnumerable<Member> MembersByRole(int roleId);
+
+    Task<IEnumerable<Member>> GetAllMembers();
+
+    Task<Member> GetMemberById(int? id);
+
+    void CreateMember(Member member);
+
+    void UpdateMember(Member member);
+
+    void DeleteMember(Member member);
 }

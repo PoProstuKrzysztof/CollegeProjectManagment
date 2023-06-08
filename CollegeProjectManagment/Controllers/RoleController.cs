@@ -1,38 +1,40 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
+using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Core.Mapper;
-using CollegeProjectManagment.Core.DTO;
+using Microsoft.AspNetCore.Mvc;
+using System.CodeDom.Compiler;
 
 namespace CollegeProjectManagment.Controllers;
 
+[Route("api/role")]
 [ApiController]
-[Route("api/project")]
-public class ProjectController : ControllerBase
+public class RoleController : ControllerBase
 {
     private IRepositoryWrapper _repository;
     private Mapper _mapper = new Mapper();
 
-    public ProjectController(IRepositoryWrapper repository)
+    public RoleController(IRepositoryWrapper repository)
     {
         _repository = repository;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllProjects()
+    public async Task<IActionResult> GetAllRoles()
     {
         try
         {
-            var projects = await _repository.Project.GetAllProjects();
+            var roles = await _repository.Role.GetAllRoles();
 
-            if (!projects.Any())
+            if (!roles.Any())
             {
                 return NotFound();
             }
 
-            return Ok(projects.Select(p => _mapper.MapProjectToProjectDTO(p)).ToList());
+            return Ok(roles.Select(r => _mapper.MapRoleToRoleDTO(r)).ToList());
         }
         catch (Exception)
         {
@@ -40,17 +42,17 @@ public class ProjectController : ControllerBase
         }
     }
 
-    [HttpGet("{id}", Name = "ProjectById")]
+    [HttpGet("{id}", Name = "RoleById")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetProjectById(int id)
+    public async Task<IActionResult> GetRolesById(int id)
     {
         try
         {
-            var project = await _repository.Project.GetProjectById(id);
+            var role = await _repository.Role.GetRoleById(id);
 
-            return project == null ? NotFound() : Ok(_mapper.MapProjectToProjectDTO(project));
+            return role == null ? NotFound() : Ok(_mapper.MapRoleToRoleDTO(role));
         }
         catch (Exception)
         {
@@ -62,13 +64,13 @@ public class ProjectController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateProject([FromBody] ProjectDTO project)
+    public IActionResult CreateRole([FromBody] RoleDTO role)
     {
         try
         {
-            if (project is null)
+            if (role is null)
             {
-                return BadRequest("Project object is null");
+                return BadRequest("Role object is null");
             }
 
             if (!ModelState.IsValid)
@@ -76,10 +78,10 @@ public class ProjectController : ControllerBase
                 return BadRequest("Invalid model object");
             }
 
-            _repository.Project.CreateProject(_mapper.MapyProjectDtoToProject(project));
-            await _repository.Save();
+            _repository.Role.CreateRole(_mapper.MapRoletDtoToProject(role));
+            _repository.Save();
 
-            return CreatedAtRoute("ProjectById", new { id = project.Id }, project);
+            return CreatedAtRoute("RoleById", new { id = role.Id }, role);
         }
         catch (Exception)
         {
@@ -91,13 +93,13 @@ public class ProjectController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> UpdateProject([FromBody] ProjectDTO project)
+    public async Task<IActionResult> UpdateRole([FromBody] RoleDTO role)
     {
         try
         {
-            if (project is null)
+            if (role is null)
             {
-                return BadRequest("Project object is null");
+                return BadRequest("Role object is null");
             }
 
             if (!ModelState.IsValid)
@@ -105,13 +107,13 @@ public class ProjectController : ControllerBase
                 return BadRequest("Invalid model object");
             }
 
-            var existingProject = await _repository.Project.GetProjectById(project.Id);
-            if (existingProject == null)
+            var roleEntity = await _repository.Role.GetRoleById(role.Id);
+            if (roleEntity is null)
             {
                 return NotFound();
             }
 
-            _repository.Project.UpdateProject(_mapper.MapyProjectDtoToProject(project));
+            _repository.Role.UpdateRole(_mapper.MapRoletDtoToProject(role));
             await _repository.Save();
 
             return NoContent();
@@ -126,17 +128,22 @@ public class ProjectController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> DeleteProject(int id)
+    public async Task<IActionResult> DeleteOwner(int id)
     {
         try
         {
-            var project = await _repository.Project.GetProjectById(id);
-            if (project == null)
+            var role = await _repository.Role.GetRoleById(id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            _repository.Project.DeleteProject(project);
+            if (_repository.Member.MembersByRole(id).Any())
+            {
+                return BadRequest("Cannot delete role. It has related members. Delete those members first");
+            }
+
+            _repository.Role.DeleteRole(role);
             await _repository.Save();
 
             return NoContent();

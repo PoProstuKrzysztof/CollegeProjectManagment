@@ -13,7 +13,7 @@ namespace CollegeProjectManagment.Core.Domain.Entities;
 public class Team
 {
     [Key]
-    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
     [Column("TeamId")]
     public int Id { get; set; }
 
@@ -24,9 +24,9 @@ public class Team
 
     //Relationships
 
-    public ICollection<Project> CompletedProjects { get; set; }
+    public ICollection<Project>? CompletedProjects { get; set; }
 
-    public ICollection<Member> Members { get; set; }
+    public ICollection<Member>? Members { get; set; }
 
     public ICollection<Project> Projects { get; set; }
 }

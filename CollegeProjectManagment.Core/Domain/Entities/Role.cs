@@ -12,7 +12,7 @@ namespace CollegeProjectManagment.Core.Domain.Entities;
 public class Role
 {
     [Key]
-    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
     [Column("RoleId")]
     public int Id { get; set; }
 

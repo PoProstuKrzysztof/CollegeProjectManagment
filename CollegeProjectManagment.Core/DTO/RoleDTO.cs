@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.DTO;
-
-public class Class1
+public record class RoleDTO
 {
-    // to jest po to żeby sie folder stworzył, usuń to
+    public int Id { get; set; }
+
+    public string Name { get; set; } = string.Empty;
 }

@@ -15,6 +15,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D90856A5-CE82-477A-A0B4-5E573C1561EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2F997E0A-0D3A-4603-9238-0B744E92FEE3}"
+	ProjectSection(SolutionItems) = preProject
+		DataSeedJson.txt = DataSeedJson.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

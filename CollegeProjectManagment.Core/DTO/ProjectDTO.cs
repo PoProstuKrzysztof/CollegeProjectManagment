@@ -1,26 +1,20 @@
 ﻿using CollegeProjectManagment.Core.Enums;
-using Newtonsoft.Json.Converters;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using CollegeProjectManagment.Core.Domain.Entities;
 
-namespace CollegeProjectManagment.Core.Domain.Entities;
+namespace CollegeProjectManagment.Core.DTO;
 
-[Table("project")]
-public class Project
+public record class ProjectDTO
 {
-    [Key]
-    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
-    [Column("ProjectId")]
     public int Id { get; set; }
-
-    [Required(ErrorMessage = "Title for project is required")]
     public string Title { get; set; } = string.Empty;
 
     public string Description { get; set; } = string.Empty;
@@ -32,21 +26,11 @@ public class Project
 
     public DifficultyLevel DifficultyLevel { get; set; }
 
-    public ProjectState State { get; set; } = ProjectState.Created;
-
+    public ProjectState State { get; set; }
     public DateTime PlannedEndDate { get; set; }
-
     public DateTime? CompletionDate { get; set; }
-
     public string RepositoryLink { get; set; } = string.Empty;
 
-    //Relationships
-
-    [AllowNull]
     public int? AssignedTeamId { get; set; }
-
-    public Team? Team { get; set; }
-    public int? LeaderId { get; set; }
-
-    public Member? Leader { get; set; }
+    public int LeaderId { get; set; }
 }

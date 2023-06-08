@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.Interfaces;
 
-public interface IProjectRepository //: IRepositoryBase<Project>
+public interface IProjectRepository : IRepositoryBase<Project>
 {
-    Task<IEnumerable<Project>> GetProjects();
-    Task<Project> GetProject(int id);
-    Task<Project> CreateProject(Project project);
-    Task UpdateProject(int id, Project project);
-    Task DeleteProject(int id);
-    Task UpdateProjectStatusAndLink(int id, ProjectState state, string repositoryLink);
+    Task<IEnumerable<Project>> GetAllProjects();
+
+    Task<Project> GetProjectById(int id);
+
+    void CreateProject(Project project);
+
+    void UpdateProject(Project project);
+
+    void DeleteProject(Project project);
+
+    void UpdateProjectStatus(int id, bool move);
 }

@@ -14,5 +14,5 @@ public interface IRepositoryWrapper
 
     IRoleRepository Role { get; }
 
-    void Save();
+    Task Save();
 }
