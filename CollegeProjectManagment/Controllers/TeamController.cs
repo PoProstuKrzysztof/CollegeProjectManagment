@@ -170,5 +170,125 @@ namespace CollegeProjectManagment.Controllers
                 return StatusCode(500, "Wewnętrzny błąd serwera");
             }
         }
+
+        /// <summary>
+        /// Add member to team, move him from one to another
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpPost("{teamId}/members/{memberId}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddMemberToTeam(int teamId, int memberId)
+        {
+            try
+            {
+                var team = await _repository.Team.GetTeamById(teamId);
+                if (team == null)
+                {
+                    return NotFound("Team not found");
+                }
+
+                if (!team.IsOpen)
+                {
+                    return BadRequest("This team is closed. You can't add member.");
+                }
+
+                var member = await _repository.Member.GetMemberById(memberId);
+                if (member == null)
+                {
+                    return NotFound("Member not found");
+                }
+
+                member.TeamId = teamId;
+
+                _repository.Member.UpdateMember(member);
+                await _repository.Save();
+
+                return CreatedAtRoute("TeamById", new { id = member.TeamId }, member);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Close team
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        [HttpPut("{id}/close")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CloseTeam(int id)
+        {
+            try
+            {
+                var team = await _repository.Team.GetTeamById(id);
+                if (team == null)
+                {
+                    return NotFound("Team not found");
+                }
+
+                if (!team.IsOpen)
+                {
+                    return BadRequest("Team is already closed");
+                }
+
+                team.IsOpen = false;
+
+                _repository.Team.UpdateTeam(team);
+                await _repository.Save();
+
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Open team
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("{id}/open")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> OpenTeam(int id)
+        {
+            try
+            {
+                var team = await _repository.Team.GetTeamById(id);
+                if (team == null)
+                {
+                    return NotFound("Team not found");
+                }
+
+                if (team.IsOpen)
+                {
+                    return BadRequest("Team is already open");
+                }
+
+                team.IsOpen = true;
+
+                _repository.Team.UpdateTeam(team);
+                await _repository.Save();
+
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

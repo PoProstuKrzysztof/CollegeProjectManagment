@@ -24,10 +24,7 @@ sqlServerOptionsAction: sqlOptions =>
 {
     sqlOptions.EnableRetryOnFailure();
     sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-   
 }));
-
-
 
 builder.Services.ConfigureServices();
 
@@ -39,16 +36,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-///Nie usuwaæ
-
-//using var scope = app.Services.CreateScope();
-
-//var dbContext = scope.ServiceProvider.GetService<RepositoryContext>();
-//if (!dbContext.Members.Any())
-//{
-//    DbContextSeeder.SeedData(dbContext);
-//}
 
 app.UseHttpsRedirection();
 
