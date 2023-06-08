@@ -146,4 +146,24 @@ public class ProjectController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
+
+    [HttpPost("id/NextState")]
+    public async Task<IActionResult> MoveProjectToNextStateAsync(int id, [FromQuery] string? command)
+    {
+        try
+        {
+            if(!await _repository.Project.UpdateProjectStatus(id, command))
+            {
+                return BadRequest("Couldn't move project to other state");
+            }
+
+            await _repository.Save();
+
+            return NoContent();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
 }

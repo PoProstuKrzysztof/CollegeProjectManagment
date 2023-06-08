@@ -10,6 +10,7 @@ namespace CollegeProjectManagment.Core.Interfaces;
 
 public interface IProjectRepository : IRepositoryBase<Project>
 {
+    //BASIC CRUD
     Task<IEnumerable<Project>> GetAllProjects();
 
     Task<Project> GetProjectById(int id);
@@ -20,5 +21,5 @@ public interface IProjectRepository : IRepositoryBase<Project>
 
     void DeleteProject(Project project);
 
-    void UpdateProjectStatus(int id, bool move);
+    Task<bool> UpdateProjectStatus(int id, string command);
 }

@@ -47,4 +47,22 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
     {
         Delete(member);
     }
+
+    /// <summary>
+    /// Increasing prestige points every time when project is moving to the next state
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns></returns>
+    public async Task IncreasePrestigePointsForTeamMembers(int teamId)
+    {
+        var members = await FindAll()
+            .Where(x => x.TeamId.Equals(teamId))
+            .ToListAsync();
+
+        foreach (var member in members)
+        {
+            member.PrestigePoints += 1;
+            Update(member);
+        }
+    }
 }

@@ -18,6 +18,7 @@ public record class MemberDTO
 
     public string? Surname { get; set; } = string.Empty;
 
+    public int? PrestigePoints { get; set; }
 
     public ICollection<ProgrammingLanguages>? KnownTechnologies { get; set; }
 

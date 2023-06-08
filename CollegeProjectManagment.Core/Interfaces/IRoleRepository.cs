@@ -9,6 +9,7 @@ namespace CollegeProjectManagment.Core.Interfaces;
 
 public interface IRoleRepository : IRepositoryBase<Role>
 {
+    //BASIC CRUD
     Task<IEnumerable<Role>> GetAllRoles();
 
     Task<Role> GetRoleById(int id);

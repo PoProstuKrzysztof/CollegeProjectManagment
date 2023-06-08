@@ -45,15 +45,15 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
         Delete(project);
     }
 
-    public async void UpdateProjectStatus(int id, bool move)
+    public async Task<bool> UpdateProjectStatus(int id, string command)
     {
         var projectEntity = await FindByCondition(x => x.Id.Equals(id)).FirstOrDefaultAsync();
         if (projectEntity is null)
         {
-            throw new NullReferenceException("There is no such project");
+            return false;
         }
 
-        if (move)
+        if (command.ToLower().Equals("next"))
         {
             projectEntity.State = projectEntity.State switch
             {
@@ -64,6 +64,7 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
                 ProjectState.Testing => ProjectState.Completed,
                 _ => throw new ArgumentException("Project is finished")
             };
+            Update(projectEntity);
         }
         else
         {
@@ -75,7 +76,11 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
                 ProjectState.TeamCompleted => ProjectState.Created,
                 _ => throw new ArgumentException("Project doesn't have state")
             };
+
+            Update(projectEntity);
         }
+
+        return true;
     }
 
     public int CountMembersOfProject(Project project)

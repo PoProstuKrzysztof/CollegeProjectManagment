@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CollegeProjectManagment.Core.Interfaces;
 
 public interface ITeamRepository : IRepositoryBase<Team>
-{
+{    //BASIC CRUD
     Task<IEnumerable<Team>> GetAllTeams();
 
     Task<Team> GetTeamById(int id);
@@ -18,5 +18,4 @@ public interface ITeamRepository : IRepositoryBase<Team>
     void UpdateTeam(Team team);
 
     void DeleteTeam(Team team);
-
 }
