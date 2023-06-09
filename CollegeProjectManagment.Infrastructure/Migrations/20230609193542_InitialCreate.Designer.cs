@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollegeProjectManagment.Infrastructure.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230608164943_InitialCreate")]
+    [Migration("20230609193542_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -30,6 +30,9 @@ namespace CollegeProjectManagment.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int")
                         .HasColumnName("MemberId");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KnownTechnologies")
                         .HasColumnType("nvarchar(max)");

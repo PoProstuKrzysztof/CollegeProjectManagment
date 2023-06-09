@@ -28,6 +28,9 @@ namespace CollegeProjectManagment.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("MemberId");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("KnownTechnologies")
                         .HasColumnType("nvarchar(max)");
 

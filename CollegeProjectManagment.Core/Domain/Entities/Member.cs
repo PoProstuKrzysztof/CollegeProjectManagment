@@ -25,6 +25,11 @@ public class Member
     [Required]
     public string? Surname { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Dodałem maila żeby potem można było łatwiej powiązan usera z członkiem
+    /// </summary>
+    public string? Email { get; set; }
+
     public int? PrestigePoints { get; set; } = 0;
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -48,6 +53,9 @@ public class Member
 
     public void SubtractPoints()
     {
-        PrestigePoints -= 10;
+        if (PrestigePoints != 0)
+        {
+            PrestigePoints -= 10;
+        }
     }
 }

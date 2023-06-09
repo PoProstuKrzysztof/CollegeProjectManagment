@@ -43,6 +43,7 @@ namespace CollegeProjectManagment.Infrastructure.Migrations
                     MemberId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PrestigePoints = table.Column<int>(type: "int", nullable: true),
                     KnownTechnologies = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SkillRatings = table.Column<string>(type: "nvarchar(max)", nullable: true),

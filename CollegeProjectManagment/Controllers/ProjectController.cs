@@ -78,10 +78,6 @@ public class ProjectController : ControllerBase
             }
 
             var projectEntity = _mapper.MapyProjectDtoToProject(project);
-            if (projectEntity.State != ProjectState.Finished)
-            {
-                projectEntity.RepositoryLink = string.Empty;
-            }
             _repository.Project.CreateProject(projectEntity);
             projectEntity.CountMembers(await _repository.Member.CountMembersOfTeam(project.AssignedTeamId));
 

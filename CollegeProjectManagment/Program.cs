@@ -25,12 +25,12 @@ sqlServerOptionsAction: sqlOptions =>
     sqlOptions.EnableRetryOnFailure();
     sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
 }));
+builder.Services.ConfigureAuthentication(builder);
 
 builder.Services.ConfigureServices();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -39,6 +39,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
