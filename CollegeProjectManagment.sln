@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2F997E0A-0D3
 		DataSeedJson.txt = DataSeedJson.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{9E3A8911-02F9-48CE-BAF2-F60D2293B892}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{4B02E778-A74D-42D1-993C-6F7B65C199BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B02E778-A74D-42D1-993C-6F7B65C199BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B02E778-A74D-42D1-993C-6F7B65C199BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3A8911-02F9-48CE-BAF2-F60D2293B892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3A8911-02F9-48CE-BAF2-F60D2293B892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3A8911-02F9-48CE-BAF2-F60D2293B892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3A8911-02F9-48CE-BAF2-F60D2293B892}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

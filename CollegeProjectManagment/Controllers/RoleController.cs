@@ -36,9 +36,9 @@ public class RoleController : ControllerBase
 
             return Ok(roles.Select(r => _mapper.MapRoleToRoleDTO(r)).ToList());
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, "Internal server error");
+            return StatusCode(500, ex.Message);
         }
     }
 
@@ -54,9 +54,9 @@ public class RoleController : ControllerBase
 
             return role == null ? NotFound() : Ok(_mapper.MapRoleToRoleDTO(role));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, "Internal server error");
+            return StatusCode(500, ex.Message);
         }
     }
 
