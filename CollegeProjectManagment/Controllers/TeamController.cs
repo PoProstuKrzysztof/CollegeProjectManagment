@@ -6,6 +6,7 @@ using CollegeProjectManagment.Core.DTO;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CollegeProjectManagment.Infrastructure.Repositories;
 
 namespace CollegeProjectManagment.Controllers
 {
