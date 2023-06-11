@@ -1,5 +1,8 @@
+using CollegeProjectManagment.Core.Identity;
 using CollegeProjectManagment.DI;
 using CollegeProjectManagment.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -28,6 +31,18 @@ sqlServerOptionsAction: sqlOptions =>
 builder.Services.ConfigureAuthentication(builder);
 
 builder.Services.ConfigureServices();
+
+//Identity
+
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+{
+    options.Password.RequiredLength = 5;
+})
+    .AddEntityFrameworkStores<RepositoryContext>()
+    .AddDefaultTokenProviders()
+    .AddUserStore<UserStore<ApplicationUser,ApplicationRole, RepositoryContext, Guid>>()
+    .AddRoleStore<RoleStore<ApplicationRole, RepositoryContext,Guid>>();
+
 
 var app = builder.Build();
 

@@ -1,6 +1,8 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
 using CollegeProjectManagment.Core.Enums;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CollegeProjectManagment.Core.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Infrastructure.Data;
 
-public class RepositoryContext : DbContext
+public class RepositoryContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public RepositoryContext(DbContextOptions options) : base(options)
     {
