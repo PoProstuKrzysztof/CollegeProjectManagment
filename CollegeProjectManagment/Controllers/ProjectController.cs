@@ -203,7 +203,6 @@ public class ProjectController : ControllerBase
         }
     }
 
-
     [HttpPost("{id}/AddRepositoryLink")]
     public async Task<IActionResult> AddRepositoryLink(int id, string? link)
     {
@@ -220,7 +219,6 @@ public class ProjectController : ControllerBase
                 return NotFound();
             }
 
-
             if (project.State != ProjectState.Completed)
             {
                 return BadRequest("Your project is not completed");
@@ -230,11 +228,9 @@ public class ProjectController : ControllerBase
             await _repository.Save();
 
             return NoContent();
-
         }
         catch (Exception)
         {
-
             return StatusCode(500, "Internal server error");
         }
     }
