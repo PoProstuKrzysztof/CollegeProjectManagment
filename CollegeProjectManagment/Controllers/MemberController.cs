@@ -91,6 +91,7 @@ public class MemberController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateMember([FromBody] MemberDTO member)
     {
         try
@@ -126,6 +127,7 @@ public class MemberController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteMember(int id)
     {
         try
@@ -140,6 +142,25 @@ public class MemberController : ControllerBase
             _repository.Save();
 
             return NoContent();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpGet("getByTechnology")]
+    public async Task<IActionResult> GetMembersByTechnology(string? tech)
+    {
+        try
+        {
+            var members = await _repository.Member.GetAllMembersByTechnology(tech);
+            if (!members.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(Ok(members.Select(m => _mapper.MapMemberToMemberDTO(m)).ToList()));
         }
         catch (Exception)
         {

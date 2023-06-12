@@ -44,7 +44,7 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
-        [HttpGet("{id}/members")]
+        [HttpGet("{id}/membersOnTeam")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllMembersOfTeam([FromRoute] int? id)
@@ -61,7 +61,7 @@ namespace CollegeProjectManagment.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Wewnętrzny błąd serwera");
+                return StatusCode(500, "Internal server error");
             }
         }
 
@@ -178,7 +178,7 @@ namespace CollegeProjectManagment.Controllers
         /// <param name="teamId"></param>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        [HttpPost("{teamId}/members/{memberId}")]
+        [HttpPost("{teamId}/members/{memberId}/moveMemberOtherTeam")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -205,6 +205,10 @@ namespace CollegeProjectManagment.Controllers
                 }
 
                 member.TeamId = teamId;
+                if(member.PrestigePoints < 40)
+                {
+                    member.PrestigePoints = 0;
+                }
 
                 _repository.Member.UpdateMember(member);
                 await _repository.Save();

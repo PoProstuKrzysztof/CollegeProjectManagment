@@ -18,6 +18,8 @@ public interface IMemberRepository : IRepositoryBase<Member>
 
     Task<Member> GetMemberById(int? id);
 
+    Task<IEnumerable<Member>> GetAllMembersByTechnology(string tech);
+
     void CreateMember(Member member);
 
     void UpdateMember(Member member);

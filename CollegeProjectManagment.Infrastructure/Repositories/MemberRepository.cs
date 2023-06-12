@@ -1,5 +1,6 @@
 ﻿using CollegeProjectManagment.Core.Domain.Entities;
 using CollegeProjectManagment.Core.DTO;
+using CollegeProjectManagment.Core.Enums;
 using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +63,7 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
 
         foreach (var member in members)
         {
-            member.PrestigePoints += 1;
+            member.PrestigePoints += 10;
             Update(member);
         }
     }
@@ -108,5 +109,19 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
                 Update(m);
             }
         }
+    }
+
+    public async Task<IEnumerable<Member>> GetAllMembersByTechnology(string tech)
+    {
+        var parsedEnum = Enum.Parse<ProgrammingLanguages>(tech);
+
+        var members = await FindAll()
+             .OrderBy(x => x.Id)
+             .ToListAsync();
+
+        var membersWithDesiredTech = members.Where(x => x.KnownTechnologies.Contains(parsedEnum))
+            .ToList();
+
+        return membersWithDesiredTech;
     }
 }
