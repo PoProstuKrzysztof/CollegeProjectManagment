@@ -69,6 +69,7 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
                 ProjectState.Testing => ProjectState.Completed,
                 _ => throw new ArgumentException("Project is finished")
             };
+            
             Update(projectEntity);
         }
         else
@@ -87,5 +88,10 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
         }
 
         return true;
+    }
+    public async Task<DifficultyLevel>  ReturnDifficultyLevel(int id)
+    {
+        var projectEntity = await FindByCondition(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+        return projectEntity.DifficultyLevel;
     }
 }

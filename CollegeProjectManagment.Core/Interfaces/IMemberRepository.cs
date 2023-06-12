@@ -33,5 +33,5 @@ public interface IMemberRepository : IRepositoryBase<Member>
 
     Task<int> CountMembersOfTeam(int? teamId);
 
-    void ManagePoints(List<Member> members, string command);
+    void ManagePoints(List<Member> members, string command, int multiplier);
 }
