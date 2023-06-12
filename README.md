@@ -1,5 +1,4 @@
 # CollegeProjectManagment
-College project 
 
 ## Project for college class
 
