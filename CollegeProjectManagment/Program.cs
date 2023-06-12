@@ -25,10 +25,10 @@ builder.Services.AddDbContextPool<RepositoryContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
 sqlServerOptionsAction: sqlOptions =>
 {
-    sqlOptions.EnableRetryOnFailure();
+    sqlOptions.EnableRetryOnFailure(); 
     sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
 }));
-builder.Services.ConfigureAuthentication(builder);
+builder.Services.ConfigureAuthentication(builder); 
 
 builder.Services.ConfigureServices();
 
