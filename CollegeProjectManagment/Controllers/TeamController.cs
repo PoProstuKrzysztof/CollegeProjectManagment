@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CollegeProjectManagment.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CollegeProjectManagment.Controllers
 {
@@ -22,6 +23,7 @@ namespace CollegeProjectManagment.Controllers
             _repository = repository;
         }
 
+        [Authorize(Roles = "leader")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -44,6 +46,7 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}/membersOnTeam")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -65,6 +68,7 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}", Name = "TeamById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -83,6 +87,32 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
+        [HttpGet("{id}/completedProjects")]
+        public async Task<IActionResult> GetCompletedProjects(int id)
+        {
+            try
+            {
+                var team = await _repository.Team.GetTeamById(id);
+                if (team is null)
+                {
+                    return NotFound();
+                }
+
+                var projects = team.CompletedProjects;
+                if (projects is null)
+                {
+                    return NotFound("There are not completed projects");
+                }
+
+                return Ok(projects.Select(x => _mapper.MapProjectToProjectDTO(x)).ToList());
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -112,6 +142,7 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -205,7 +236,7 @@ namespace CollegeProjectManagment.Controllers
                 }
 
                 member.TeamId = teamId;
-                if(member.PrestigePoints < 40)
+                if (member.PrestigePoints < 40)
                 {
                     member.PrestigePoints = 0;
                 }
@@ -227,6 +258,7 @@ namespace CollegeProjectManagment.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
 
+        [Authorize]
         [HttpPut("{id}/close")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -264,6 +296,7 @@ namespace CollegeProjectManagment.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPut("{id}/open")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

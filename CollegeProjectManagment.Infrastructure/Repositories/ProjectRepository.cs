@@ -75,6 +75,7 @@ public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
         {
             projectEntity.State = projectEntity.State switch
             {
+                ProjectState.Completed => ProjectState.Testing,
                 ProjectState.Testing => ProjectState.Finished,
                 ProjectState.Finished => ProjectState.Started,
                 ProjectState.Started => ProjectState.TeamCompleted,
