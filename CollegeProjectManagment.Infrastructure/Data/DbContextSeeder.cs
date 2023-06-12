@@ -112,10 +112,10 @@ public static class DbContextSeeder
                 TechnologyStack = "Technology Stack for Project 1",
                 ProgrammingLanguages = new List<ProgrammingLanguages> { ProgrammingLanguages.Java, ProgrammingLanguages.CSharp },
                 DifficultyLevel = DifficultyLevel.Medium,
-                State = ProjectState.Completed,
+                State = ProjectState.Testing,
                 PlannedEndDate = new DateTime(2023, 5, 1),
                 CompletionDate = new DateTime(2023, 5, 15),
-                RepositoryLink = "Repository Link for Project 1",
+                RepositoryLink = "",
                 AssignedTeamId = 1,
                 LeaderId = 1
             },
@@ -130,7 +130,7 @@ public static class DbContextSeeder
                 DifficultyLevel = DifficultyLevel.Hard,
                 State = ProjectState.Started,
                 PlannedEndDate = new DateTime(2023, 6, 1),
-                RepositoryLink = "Repository Link for Project 2",
+                RepositoryLink = "",
                 AssignedTeamId = 1,
                 LeaderId = 2
             }
