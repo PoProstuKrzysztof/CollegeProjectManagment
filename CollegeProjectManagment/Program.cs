@@ -1,4 +1,6 @@
 using CollegeProjectManagment.Core.Identity;
+using CollegeProjectManagment.Core.ServiceContracts;
+using CollegeProjectManagment.Core.Services;
 using CollegeProjectManagment.DI;
 using CollegeProjectManagment.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -25,10 +27,10 @@ builder.Services.AddDbContextPool<RepositoryContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
 sqlServerOptionsAction: sqlOptions =>
 {
-    sqlOptions.EnableRetryOnFailure(); 
+    sqlOptions.EnableRetryOnFailure();
     sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
 }));
-builder.Services.ConfigureAuthentication(builder); 
+builder.Services.ConfigureAuthentication(builder);
 
 builder.Services.ConfigureServices();
 
@@ -40,9 +42,10 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 })
     .AddEntityFrameworkStores<RepositoryContext>()
     .AddDefaultTokenProviders()
-    .AddUserStore<UserStore<ApplicationUser,ApplicationRole, RepositoryContext, Guid>>()
-    .AddRoleStore<RoleStore<ApplicationRole, RepositoryContext,Guid>>();
+    .AddUserStore<UserStore<ApplicationUser, ApplicationRole, RepositoryContext, Guid>>()
+    .AddRoleStore<RoleStore<ApplicationRole, RepositoryContext, Guid>>();
 
+builder.Services.AddTransient<IJwtService, JwtService>();
 
 var app = builder.Build();
 

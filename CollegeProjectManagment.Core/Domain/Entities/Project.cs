@@ -37,13 +37,14 @@ public class Project
     public DateTime PlannedEndDate { get; set; }
 
     public DateTime? CompletionDate { get; set; }
+
     [RegularExpression(@"^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$", ErrorMessage = "Invalid repository link")]
     public string RepositoryLink { get; set; } = string.Empty;
 
     //Relationships
 
     [AllowNull]
-    public int? AssignedTeamId { get; set; }
+    public int AssignedTeamId { get; set; }
 
     public Team? Team { get; set; }
     public int? LeaderId { get; set; }
