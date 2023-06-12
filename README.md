@@ -1,11 +1,11 @@
 # CollegeProjectManagment
 College project 
 
-##Project for college class
+## Project for college class
 
 It's main purpose is to handle project managment of class projects. Whole application is fully API-focused. 
 
-##Short description of project
+## Short description of project
 
 The project revolves around closed and open projects. In closed projects, the leader has the authority to add team members, while in open projects, the leader selects team members based on submissions. The user who creates the project becomes its leader but can transfer this role to another team member. User management includes registration, verification, and profile editing, which includes programming languages, known libraries, frameworks, and self-assessment of skills.
 
