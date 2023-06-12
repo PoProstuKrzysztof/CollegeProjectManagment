@@ -203,7 +203,7 @@ public class ProjectController : ControllerBase
         }
     }
 
-    [HttpPost("{id}/AddRepositoryLink")]
+    [HttpPut("{id}/AddRepositoryLink")]
     public async Task<IActionResult> AddRepositoryLink(int id, string? link)
     {
         try
@@ -225,6 +225,7 @@ public class ProjectController : ControllerBase
             }
 
             project.RepositoryLink = link;
+            _repository.Project.UpdateProject(project);
             await _repository.Save();
 
             return NoContent();
