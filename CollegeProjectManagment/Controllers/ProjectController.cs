@@ -4,6 +4,7 @@ using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Core.Mapper;
 using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Enums;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CollegeProjectManagment.Controllers;
 
@@ -178,16 +179,62 @@ public class ProjectController : ControllerBase
             }
 
             var project = await _repository.Project.GetProjectById(id);
+
+            if (project.State == ProjectState.Completed)
+            {
+                var team = await _repository.Team.GetTeamById(project.AssignedTeamId);
+
+                // Check for completed projects
+                team.CompletedProjects.Add(await _repository.Project.GetProjectById(id));
+                await _repository.Save();
+            }
             var members = await _repository.Member.FindAllMembersOfTeam(project.AssignedTeamId);
 
+            //Manage points if projects move to the next state
             _repository.Member.ManagePoints(members, command);
 
             await _repository.Save();
 
             return NoContent();
         }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+
+    [HttpPost("{id}/AddRepositoryLink")]
+    public async Task<IActionResult> AddRepositoryLink(int id, string? link)
+    {
+        try
+        {
+            if (link.IsNullOrEmpty())
+            {
+                return BadRequest("You have to put repository link!");
+            }
+
+            var project = await _repository.Project.GetProjectById(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+
+            if (project.State != ProjectState.Completed)
+            {
+                return BadRequest("Your project is not completed");
+            }
+
+            project.RepositoryLink = link;
+            await _repository.Save();
+
+            return NoContent();
+
+        }
         catch (Exception)
         {
+
             return StatusCode(500, "Internal server error");
         }
     }
