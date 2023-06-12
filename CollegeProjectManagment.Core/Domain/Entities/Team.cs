@@ -1,4 +1,5 @@
-﻿using CollegeProjectManagment.Core.Enums;
+﻿using CollegeProjectManagment.Core.DTO;
+using CollegeProjectManagment.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,9 @@ public class Team
     public string Name { get; set; } = string.Empty;
 
     public bool IsOpen { get; set; } = false;
+
+    [NotMapped]
+    public List<ProjectSubmissionDTO>? ProjectSubbmisions { get; set; }
 
     //Relationships
 

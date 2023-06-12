@@ -4,6 +4,5 @@ namespace CollegeProjectManagment.Core.Identity
 {
     public class ApplicationRole : IdentityRole<Guid>
     {
-
     }
 }

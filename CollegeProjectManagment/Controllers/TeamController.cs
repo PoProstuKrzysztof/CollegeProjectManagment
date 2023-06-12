@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CollegeProjectManagment.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace CollegeProjectManagment.Controllers
 {
@@ -112,7 +113,7 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "leader")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -142,7 +143,7 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "leader")]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -178,6 +179,7 @@ namespace CollegeProjectManagment.Controllers
             }
         }
 
+        [Authorize(Roles = "leader")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -209,6 +211,7 @@ namespace CollegeProjectManagment.Controllers
         /// <param name="teamId"></param>
         /// <param name="memberId"></param>
         /// <returns></returns>
+        [Authorize(Roles = "leader")]
         [HttpPost("{teamId}/members/{memberId}/moveMemberOtherTeam")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -258,7 +261,7 @@ namespace CollegeProjectManagment.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
 
-        [Authorize]
+        [Authorize(Roles = "leader")]
         [HttpPut("{id}/close")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -296,7 +299,7 @@ namespace CollegeProjectManagment.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(Roles = "leader")]
         [HttpPut("{id}/open")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -322,6 +325,26 @@ namespace CollegeProjectManagment.Controllers
                 await _repository.Save();
 
                 return NoContent();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("teamId/TeamSubmissions")]
+        public async Task<IActionResult> GetProjectSubmisions(int teamId)
+        {
+            try
+            {
+                var team = await _repository.Team.GetTeamById(teamId);
+
+                if (team is null)
+                {
+                    return NotFound("Project not found");
+                }
+
+                return Ok(team.ProjectSubbmisions.ToList());
             }
             catch (Exception)
             {

@@ -16,6 +16,7 @@ public class RepositoryContext : IdentityDbContext<ApplicationUser, ApplicationR
     public RepositoryContext(DbContextOptions options) : base(options)
     {
     }
+
     public virtual DbSet<Project> Projects { get; set; }
     public virtual DbSet<Member> Members { get; set; }
     public virtual DbSet<Role> Roles { get; set; }

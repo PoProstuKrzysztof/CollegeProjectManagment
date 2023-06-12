@@ -1,6 +1,8 @@
-﻿using CollegeProjectManagment.Core.DTO;
+﻿using CollegeProjectManagment.Core.Domain.Entities;
+using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Interfaces;
 using CollegeProjectManagment.Core.Mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeProjectManagment.Controllers;
@@ -58,6 +60,7 @@ public class MemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "leader")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,6 +90,7 @@ public class MemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "leader")]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -123,6 +127,7 @@ public class MemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "leader")]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -160,9 +165,50 @@ public class MemberController : ControllerBase
                 return NotFound();
             }
 
-            return Ok(Ok(members.Select(m => _mapper.MapMemberToMemberDTO(m)).ToList()));
+            return Ok(members.Select(m => _mapper.MapMemberToMemberDTO(m)).ToList());
         }
         catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpPost("{teamId}/SendSubmission/{memberId}")]
+    public async Task<IActionResult> SendSubbmision(int teamId, int memberId)
+    {
+        try
+        {
+            var team = await _repository.Team.GetTeamById(teamId);
+            if (team == null)
+            {
+                return BadRequest("Team doesn't exist");
+            }
+
+            var member = await _repository.Member.GetMemberById(memberId);
+            if (member == null)
+            {
+                return BadRequest("Member doesn't exist");
+            }
+
+            var subbmision = new ProjectSubmissionDTO()
+            {
+                TeamId = teamId,
+                SubbmisionerId = memberId
+            };
+
+            if (team.ProjectSubbmisions == null)
+            {
+                team.ProjectSubbmisions = new List<ProjectSubmissionDTO>();
+            }
+
+            team.ProjectSubbmisions.Add(subbmision);
+
+            _repository.Team.UpdateTeam(team);
+            await _repository.Save();
+
+            return NoContent();
+        }
+        catch (Exception e)
         {
             return StatusCode(500, "Internal server error");
         }

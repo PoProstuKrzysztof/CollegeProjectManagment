@@ -69,8 +69,7 @@ namespace CollegeProjectManagment.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ProjectId");
 
-                    b.Property<int?>("AssignedTeamId")
-                        .IsRequired()
+                    b.Property<int>("AssignedTeamId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CompletionDate")

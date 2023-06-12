@@ -5,6 +5,7 @@ using CollegeProjectManagment.Core.Mapper;
 using CollegeProjectManagment.Core.DTO;
 using CollegeProjectManagment.Core.Enums;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CollegeProjectManagment.Controllers;
 
@@ -60,6 +61,7 @@ public class ProjectController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "leader")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -92,6 +94,7 @@ public class ProjectController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "leader")]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -134,6 +137,7 @@ public class ProjectController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "leader")]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -165,6 +169,7 @@ public class ProjectController : ControllerBase
     /// <param name="id"></param>
     /// <param name="command"></param>
     /// <returns></returns>
+    [Authorize(Roles = "leader")]
     [HttpPost("id/NextState")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -203,7 +208,11 @@ public class ProjectController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "leader")]
     [HttpPut("{id}/AddRepositoryLink")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> AddRepositoryLink(int id, string? link)
     {
         try

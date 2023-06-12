@@ -34,7 +34,7 @@ public static class DbContextSeeder
     {
         var roles = new List<Role>
         {
-            new Role { Id = 1, Name = "Developer" },
+            new Role { Id = 1, Name = "Programmer" },
             new Role { Id = 2, Name = "Tester" },
             new Role { Id = 3, Name = "Leader" },
             new Role { Id = 4, Name = "DevOps" }

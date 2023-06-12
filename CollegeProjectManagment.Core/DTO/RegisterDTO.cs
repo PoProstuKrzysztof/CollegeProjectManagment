@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollegeProjectManagment.Core.DTO;
 
-public class RegisterDTO
+public record class RegisterDTO
 {
     [Required(ErrorMessage = "Person Name can't be blank")]
     public string PersonName { get; set; } = string.Empty;

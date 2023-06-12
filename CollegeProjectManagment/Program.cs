@@ -32,6 +32,7 @@ sqlServerOptionsAction: sqlOptions =>
 }));
 builder.Services.ConfigureAuthentication(builder);
 
+//Separate file to configure services
 builder.Services.ConfigureServices();
 
 //Identity

@@ -59,6 +59,10 @@ public class AccountController : ControllerBase
         {
             await _userManager.AddToRoleAsync(user, registerDTO.Role);
         }
+        else
+        {
+            await _userManager.AddToRoleAsync(user, registerDTO.Role);
+        }
 
         if (result.Succeeded)
         {

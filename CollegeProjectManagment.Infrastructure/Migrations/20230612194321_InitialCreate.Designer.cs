@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollegeProjectManagment.Infrastructure.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230612155427_Identity")]
-    partial class Identity
+    [Migration("20230612194321_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,8 +72,7 @@ namespace CollegeProjectManagment.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ProjectId");
 
-                    b.Property<int?>("AssignedTeamId")
-                        .IsRequired()
+                    b.Property<int>("AssignedTeamId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CompletionDate")
