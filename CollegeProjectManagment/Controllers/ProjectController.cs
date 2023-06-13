@@ -192,17 +192,19 @@ public class ProjectController : ControllerBase
 
 
             //Manage points if projects move to the next state
+            var a = await _repository.Project.ReturnDifficultyLevel(id);
             // Count multiplier
             int multiplier = 1;
-            if (_repository.Project.ReturnDifficultyLevel(id).Equals(DifficultyLevel.Medium))
+            if (a.Equals(DifficultyLevel.Medium))
             {
                 multiplier = 2;
             }
-            else if (_repository.Project.ReturnDifficultyLevel(id).Equals(DifficultyLevel.Hard))
+            else if (a.Equals(DifficultyLevel.Hard))
             {
                 multiplier = 3;
             }
-            _repository.Member.ManagePoints(members, command, multiplier);
+            
+                _repository.Member.ManagePoints(members, command, multiplier);
 
             await _repository.Save();
 
