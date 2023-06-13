@@ -195,8 +195,21 @@ public class ProjectController : ControllerBase
             }
             var members = await _repository.Member.FindAllMembersOfTeam(project.AssignedTeamId);
 
+
             //Manage points if projects move to the next state
-            _repository.Member.ManagePoints(members, command);
+            var a = await _repository.Project.ReturnDifficultyLevel(id);
+            // Count multiplier
+            int multiplier = 1;
+            if (a.Equals(DifficultyLevel.Medium))
+            {
+                multiplier = 2;
+            }
+            else if (a.Equals(DifficultyLevel.Hard))
+            {
+                multiplier = 3;
+            }
+            
+                _repository.Member.ManagePoints(members, command, multiplier);
 
             await _repository.Save();
 
@@ -244,4 +257,5 @@ public class ProjectController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
+ 
 }

@@ -46,16 +46,20 @@ public class Member
     public int? TeamId { get; set; }
     public Team? Team { get; set; }
 
-    public void AddPoints()
+    public void AddPoints(int multiplier)
     {
-        PrestigePoints += 10;
+        PrestigePoints += 10 * multiplier;
     }
 
-    public void SubtractPoints()
+    public void SubtractPoints(int multiplier)
     {
         if (PrestigePoints != 0)
         {
-            PrestigePoints -= 10;
+            PrestigePoints -= 10 * multiplier;
+        }
+        if (PrestigePoints < 0)
+        {
+            PrestigePoints = 0;
         }
     }
 }

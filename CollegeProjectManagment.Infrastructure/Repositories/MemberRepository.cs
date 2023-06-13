@@ -86,7 +86,7 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
         return members.Count();
     }
 
-    public void ManagePoints(List<Member> members, string command)
+    public void ManagePoints(List<Member> members, string command, int multiplier)
     {
         if (command is null)
         {
@@ -95,9 +95,10 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
 
         if (command.ToLower().Equals("next"))
         {
+
             foreach (var m in members)
             {
-                m.AddPoints();
+                m.AddPoints(multiplier);
                 Update(m);
             }
         }
@@ -105,7 +106,7 @@ public class MemberRepository : RepositoryBase<Member>, IMemberRepository
         {
             foreach (var m in members)
             {
-                m.SubtractPoints();
+                m.SubtractPoints(multiplier);
                 Update(m);
             }
         }

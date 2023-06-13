@@ -20,6 +20,6 @@ public interface IProjectRepository : IRepositoryBase<Project>
     void UpdateProject(Project project);
 
     void DeleteProject(Project project);
-
+    Task<DifficultyLevel> ReturnDifficultyLevel(int id);
     Task<bool> UpdateProjectStatus(int id, string command);
 }
